@@ -37,7 +37,7 @@ public class Searcher implements Runnable {
                     sentence = matcher.group(1);
                     text = matcher.group(2);
                     matcher = pattern.matcher(text);
-                    handle(sentence, words);
+                    handle(sentence);
                 }
             }
         } catch (IOException e) {
@@ -49,7 +49,7 @@ public class Searcher implements Runnable {
     // необходи будет оптимизировать алгоритм поиска, с ключевыми
     // словами из массива необходимо сравнивать слова из файлов,
     // а не наоборот, как сейчас. При этом слова из массива ложить в TreeSet
-    private void handle(String sentence, String[] words) {
+    private void handle(String sentence) {
         String checked = " " + sentence.toLowerCase();
         for(String s : words) {
             if (checked.matches(".*\\s+" + s + "[,\\s!?.…]+.*")) {
