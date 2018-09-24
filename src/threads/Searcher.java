@@ -1,9 +1,9 @@
 package threads;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Searcher implements Runnable {
@@ -20,42 +20,23 @@ public class Searcher implements Runnable {
 
     @Override
     public void run() {
-        parse();
-    }
-
-    private void parse() {
-        try (BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(src));
-             Scanner scanner = new Scanner(inputStream)) {
-
-            Pattern pattern = Pattern.compile("([^.!?]+[.!?]+)(.*)$");
-            Matcher matcher;
-            String sentence;
-            while (scanner.hasNextLine()) {
-                String text = scanner.nextLine();
-                matcher = pattern.matcher(text);
-                while (matcher.matches()) {
-                    sentence = matcher.group(1);
-                    text = matcher.group(2);
-                    matcher = pattern.matcher(text);
-                    handle(sentence);
-                }
-            }
+        try {
+            parse();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    // необходи будет оптимизировать алгоритм поиска, с ключевыми
-    // словами из массива необходимо сравнивать слова из файлов,
-    // а не наоборот, как сейчас. При этом слова из массива ложить в TreeSet
-    private void handle(String sentence) {
-        String checked = " " + sentence.toLowerCase();
-        for(String s : words) {
-            if (checked.matches(".*\\s+" + s + "[,\\s!?.…]+.*")) {
-                resultList.add(sentence.trim() + "\n");
-                break;
-            }
-        }
+    private void parse() throws IOException {
+        Files.lines(Paths.get(src))
+                .flatMap(Pattern.compile("((?<=\\.)|(?<=\\?)|(?<=!))")::splitAsStream).
+                forEach(s -> {
+                    for (String w : words) {
+                        if (s.toLowerCase().matches(".*\\s+" + w + "[,\\s!?.…]+.*")) {
+                            resultList.add(s.trim() + "\n");
+                            break;
+                        }
+                    }
+                });
     }
 }
