@@ -29,3 +29,6 @@ hs_err_pid*
 #data files
 src/datain/*
 src/dataout/*
+
+# maven conf
+pom.xml
