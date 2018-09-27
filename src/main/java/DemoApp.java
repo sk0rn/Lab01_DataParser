@@ -22,7 +22,7 @@ public class DemoApp {
         }
 
         SourceRipper sr = new SourceRipper(4);
-        sr.getOccurencies(sources, searchedWords, pathOut);
+        sr.getOccurrences(sources, searchedWords, pathOut);
 
 
     }
