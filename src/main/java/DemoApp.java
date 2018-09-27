@@ -7,8 +7,8 @@ public class DemoApp {
 
     public static void main(String[] args) throws InterruptedException {
 
-        String pathIn = "D:\\dev_edu\\STC13_HT\\Lab01_FileParser\\src\\main\\java\\datain\\";
-        String pathOut = "D:\\dev_edu\\STC13_HT\\Lab01_FileParser\\src\\main\\java\\dataout\\result.dat";
+        String pathIn = "D:\\dev_edu\\STC13_HT\\Lab01_FileParser\\src\\main\\java\\data\\datain\\";
+        String pathOut = "D:\\dev_edu\\STC13_HT\\Lab01_FileParser\\src\\main\\java\\data\\dataout\\result.dat";
         String[] searchedWords = {"hello", "cruel", "world"};
         String[] sources = null;
         File dir = new File(pathIn);
@@ -23,7 +23,6 @@ public class DemoApp {
 
         SourceRipper sr = new SourceRipper(4);
         sr.getOccurrences(sources, searchedWords, pathOut);
-
 
     }
 }

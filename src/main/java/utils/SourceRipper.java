@@ -22,18 +22,31 @@ public class SourceRipper {
     }
 
     public SourceRipper() {
-        this(Runtime.getRuntime().availableProcessors());
+        numOfThreads = Runtime.getRuntime().availableProcessors();
+        resultWriter = new SourceRipperWriter();
+    }
+
+    public SourceRipper(ResultWriter resultWriter) {
+        numOfThreads = Runtime.getRuntime().availableProcessors();
+        this.resultWriter = resultWriter;
+
     }
 
     public void getOccurrences(String[] sources, String[] words, String res) throws InterruptedException {
+        if (sources == null || words == null || res == null) {
+            throw new IllegalArgumentException("Arguments must be not null");
+        }
+
         SimpleThreadPool pool = new SimpleThreadPool(numOfThreads);
-        for (int i = 0; i < sources.length; i++) {
-            Thread thread = new Thread(new Searcher(resultList, words, sources[i]));
+        for (String source : sources) {
+            Thread thread = new Thread(new Searcher(resultList, words, source));
             pool.startWork(thread);
         }
         pool.joinAll();
-        resultWriter.write(resultList, res);
 
+        if (resultList.size() != 0) {
+            resultWriter.write(resultList, res);
+        }
     }
 
 }

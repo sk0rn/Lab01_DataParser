@@ -27,8 +27,11 @@ hs_err_pid*
 *.iml
 
 #data files
-src/main/java/datain/*
-src/main/java/dataout/*
+src/main/java/data.datain/*
+src/main/java/data.dataout/*
+src/main/java/data.datatest/*
+src/main/java/data/*
+
 
 # maven conf
 pom.xml
